@@ -2,6 +2,10 @@ const express = require('express');
 
 const app = express();
 
+require('dotenv').config();
+
+const port = process.env.PORT;
+
 app.use(express.json()); //Middleware so APP accepts JSON datatype
 
 const Fighter = require('./models/fighterModel');
@@ -44,8 +48,8 @@ app.get('/fighters', async (req, res) => {
 mongoose.connect(uri)
     .then(() => {
         console.log('Connected to MongoDB Database')
-        app.listen(3000, () => {
-            console.log("UFC API is active on port 3000")
+        app.listen(port, () => {
+            console.log("UFC API is active on port" + port)
         });
     }).catch((error) => {
         console.log(error)
