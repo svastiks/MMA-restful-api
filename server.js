@@ -13,22 +13,15 @@ const mongoose = require('mongoose');
 
 const uri = 'mongodb+srv://svastikAdmin:12345678Svastik@mmaapi.cgbdyde.mongodb.net/?retryWrites=true&w=majority';
 
-async function connect() {
-
-    try {
-        await mongoose.connect(uri)
-        console.log('Connected to MongoDB');
+mongoose.connect(uri)
+    .then(() => {
+        console.log('Connected to MongoDB Database')
         app.listen(3000, () => {
-            console.log("UFC API is running on port 3000");
-        })
-        
-    }
-    catch (error) {
-        console.error(error);
-    }
-}
-
-connect();
+            console.log("UFC API is active on port 3000")
+        });
+    }).catch((error) => {
+        console.log(error)
+    })
 
 
 // import mongoose from 'mongoose';
