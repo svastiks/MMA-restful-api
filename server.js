@@ -29,6 +29,18 @@ app.post('/fighters', async (req, res) => {
     }
 })
 
+app.get('/fighters', async (req, res) => {
+    try {
+
+        const retrieveFighter = await Fighter.find({});
+        res.status(200).json(retrieveFighter);
+
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
 mongoose.connect(uri)
     .then(() => {
         console.log('Connected to MongoDB Database')
