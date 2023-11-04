@@ -18,6 +18,20 @@ app.get('/', (req, res) => {
     res.send("Hello UFC API")
 })
 
+app.get('/fighters/search/:key', async (req, res) => {
+
+    const fighterSearch = await Fighter.find({
+
+        "$or": [
+            { name: { $regex: req.params.key } }
+        ]
+
+    })
+
+    res.status(200).json(fighterSearch);
+
+})
+
 app.post('/fighters', async (req, res) => {
     // console.log(req.body);
     // res.send(req.body);
