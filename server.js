@@ -2,16 +2,32 @@ const express = require('express');
 
 const app = express();
 
+app.use(express.json()); //Middleware so APP accepts JSON datatype
+
+const Fighter = require('./models/fighterModel');
+
 const mongoose = require('mongoose');
 
-// mongoose.connect('mongodb+srv://svastikAdmin:<12345678Svastik>@mmaapi.cgbdyde.mongodb.net/mmaApi?retryWrites=true&w=majority')
-//     .then(() => { 
-
-//         console.log('Connected to database!') }).catch((error) => {
-//         console.log(error)
-//     });
-
 const uri = 'mongodb+srv://svastikAdmin:12345678Svastik@mmaapi.cgbdyde.mongodb.net/?retryWrites=true&w=majority';
+
+app.get('/', (req, res) => {
+    res.send("Hello UFC API")
+})
+
+app.post('/fighters', async (req, res) => {
+    // console.log(req.body);
+    // res.send(req.body);
+
+    try {
+
+        const fighters = await Fighter.create(req.body);
+        res.status(200).json(fighters);
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: error.message });
+    }
+})
 
 mongoose.connect(uri)
     .then(() => {
@@ -28,41 +44,11 @@ mongoose.connect(uri)
 
 //Routes
 
-app.get('/fighters', (req, res) => {
-    res.send("Hello API, yes");
-})
+// app.get('/fighters', (req, res) => {
+//     res.send("Hello API, yes");
+// })
 
-app.get('/names', (req, res) => {
-    res.send(`
-    {
-        "First Name": "Conor",
-        "Last Name": "McGregor",
-        "Nickname": "The Notorious",
-        "Height": "5' 9\"",
-        "Weight": "155 lbs.",
-        "Reach": "74.0\"",
-        "Stance": "Southpaw",
-        "Wins": 22,
-        "Losses": 6,
-        "Draws": 0,
-        "youtube_highlights": "https://www.youtube.com/results?search_query=khabib+vs+conor"
-      },
-      {
-        "First Name": "Khabib",
-        "Last Name": "Nurmagomedov",
-        "Nickname": "The Eagle",
-        "Height": "5' 10\"",
-        "Weight": "155 lbs.",
-        "Reach": "70.0\"",
-        "Stance": "Orthodox",
-        "Wins": 29,
-        "Losses": 0,
-        "Draws": 0,
-        "youtube_highlights": "https://www.youtube.com/results?search_query=khabib+vs+poirier"
-      }
-    
-    `);
-})
+
 
 
 
