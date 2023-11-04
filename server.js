@@ -2,6 +2,37 @@ const express = require('express');
 
 const app = express();
 
+const mongoose = require('mongoose');
+
+// mongoose.connect('mongodb+srv://svastikAdmin:<12345678Svastik>@mmaapi.cgbdyde.mongodb.net/mmaApi?retryWrites=true&w=majority')
+//     .then(() => { 
+
+//         console.log('Connected to database!') }).catch((error) => {
+//         console.log(error)
+//     });
+
+const uri = 'mongodb+srv://svastikAdmin:12345678Svastik@mmaapi.cgbdyde.mongodb.net/?retryWrites=true&w=majority';
+
+async function connect() {
+
+    try {
+        await mongoose.connect(uri)
+        console.log('Connected to MongoDB');
+        app.listen(3000, () => {
+            console.log("UFC API is running on port 3000");
+        })
+        
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+
+connect();
+
+
+// import mongoose from 'mongoose';
+
 //Routes
 
 app.get('/fighters', (req, res) => {
@@ -40,6 +71,5 @@ app.get('/names', (req, res) => {
     `);
 })
 
-app.listen(3000, () => {
-    console.log("UFC API is running on port 3000");
-})
+
+
